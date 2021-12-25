@@ -1,4 +1,4 @@
-version: '1'
+version: '3'
 services:
   php:
     build:
@@ -6,6 +6,7 @@ services:
       dockerfile: php.DockerFile
     ports:
       - "80:80"
+      - "443:443"
     restart: always
     volumes:
       - ./app/html:/var/www/html

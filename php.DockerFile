@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM raspbian/stretch:latest
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update -y
 RUN apt upgrade -y
@@ -10,10 +10,11 @@ RUN apt install -y php8.0
 RUN apt install -y composer
 #COPY ./php.ini /etc/php/8.0/apache2/php.ini
 #COPY ./slc.conf /etc/apache2/sites-available/slc.conf
-#COPY ./apache2.conf /etc/apache2/apache2.conf
-RUN rm -rfv /etc/apache2/sites-enabled/*.conf
-RUN ln -s /etc/apache2/sites-available/slc.conf /etc/apache2/sites-enabled/slc.conf
-CMD ["apachectl","-D","FOREGROUND"]
+COPY ./apache2.conf /etc/apache2/apache2.conf
+#RUN rm -rfv /etc/apache2/sites-enabled/*.conf
+#RUN ln -s /etc/apache2/sites-available/slc.conf /etc/apache2/sites-enabled/slc.conf
 RUN a2enmod rewrite
+#RUN apache2ctl -k restart
 EXPOSE 80
 EXPOSE 443
+CMD ["/usr/sbin/apache2ctl", "-DFOREGROUND"]
